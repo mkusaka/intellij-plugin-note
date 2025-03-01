@@ -15,4 +15,14 @@
     <applicationListeners>
         <listener class="com.github.mkusaka.intellijpluginnote.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+    <actions>
+        <action id="com.github.mkusaka.intellijpluginnote.CopyPathAction"
+                class="com.github.mkusaka.intellijpluginnote.CopyPathAction"
+                text="Copy Path from Root"
+                description="Copy path from project root"
+                icon="AllIcons.Actions.Copy">
+            <keyboard-shortcut keymap="$default" first-keystroke="control alt C"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+    </actions>
 </idea-plugin>
