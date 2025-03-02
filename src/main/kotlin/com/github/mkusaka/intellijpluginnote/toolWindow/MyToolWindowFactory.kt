@@ -1,45 +1,35 @@
 package com.github.mkusaka.intellijpluginnote.toolWindow
 
-import com.intellij.openapi.components.service
-import com.intellij.openapi.diagnostic.thisLogger
+import com.github.mkusaka.intellijpluginnote.toolWindow.components.ChatPanel
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
-import com.github.mkusaka.intellijpluginnote.MyBundle
-import com.github.mkusaka.intellijpluginnote.services.MyProjectService
-import javax.swing.JButton
 
-
+/**
+ * チャットUIを含むツールウィンドウのファクトリ
+ */
 class MyToolWindowFactory : ToolWindowFactory {
 
-    init {
-        thisLogger().warn("Don't forget to remove all non-needed sample code files with their corresponding registration entries in `plugin.xml`.")
-    }
-
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val myToolWindow = MyToolWindow(toolWindow)
-        val content = ContentFactory.getInstance().createContent(myToolWindow.getContent(), null, false)
-        toolWindow.contentManager.addContent(content)
+        val chatToolWindow = ChatToolWindow(project, toolWindow)
+        chatToolWindow.initToolWindow()
     }
 
     override fun shouldBeAvailable(project: Project) = true
 
-    class MyToolWindow(toolWindow: ToolWindow) {
-
-        private val service = toolWindow.project.service<MyProjectService>()
-
-        fun getContent() = JBPanel<JBPanel<*>>().apply {
-            val label = JBLabel(MyBundle.message("randomLabel", "?"))
-
-            add(label)
-            add(JButton(MyBundle.message("shuffle")).apply {
-                addActionListener {
-                    label.text = MyBundle.message("randomLabel", service.getRandomNumber())
-                }
-            })
+    /**
+     * チャットUIを含むツールウィンドウ
+     */
+    class ChatToolWindow(private val project: Project, private val toolWindow: ToolWindow) {
+        
+        /**
+         * ツールウィンドウを初期化します
+         */
+        fun initToolWindow() {
+            val chatPanel = ChatPanel(project)
+            val content = ContentFactory.getInstance().createContent(chatPanel, "チャット", false)
+            toolWindow.contentManager.addContent(content)
         }
     }
 }

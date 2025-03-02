@@ -9,7 +9,10 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.mkusaka.intellijpluginnote.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <toolWindow factoryClass="com.github.mkusaka.intellijpluginnote.toolWindow.MyToolWindowFactory" id="ChatToolWindow" icon="AllIcons.General.Comment" anchor="right"/>
+        
+        <!-- チャットサービスの登録 -->
+        <projectService serviceImplementation="com.github.mkusaka.intellijpluginnote.services.ChatService"/>
     </extensions>
 
     <applicationListeners>
